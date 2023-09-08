@@ -98,7 +98,29 @@ class Transactions(TransactionsBase):
 
 
 class AntColonyMap(BaseModel):
-    turbine_id: str
+    turbine_id: int
     turbine_name: str
     latitude: float
     longitude: float
+
+
+class GeoPath(BaseModel):
+    latitude: float
+    longitude: float
+
+
+class Subsystems(BaseModel):
+    subsystem_id: int
+    subsystem_name: str
+
+
+class TurbineFaults(BaseModel):
+    turbine_id: int
+    turbine_name: str
+    subsystem_name: str
+    fault_type: str
+
+
+class AntColonyPath(BaseModel):
+    turbine_id: int
+    path: list[GeoPath] = []

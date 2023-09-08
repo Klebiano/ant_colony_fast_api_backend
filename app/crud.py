@@ -22,6 +22,33 @@ def get_turbines_map(db: Session):
     response = db.execute(query_str).all()
     return response
 
+
+def get_subsystems(db: Session):
+    query_str = text('''SELECT 
+                            sub."SUBSYSTEM_ID" as subsystem_id,
+                            sub."SUBSYSTEM_NAME" as subsystem_name
+                        FROM 
+                            subsystem sub''')
+
+    response = db.execute(query_str).all()
+    return response
+
+
+def get_downtimes(db: Session):
+    query_str = text('''SELECT 
+                            sub."SUBSYSTEM_ID" as subsystem_id,
+                            sub."SUBSYSTEM_NAME" as subsystem_name,
+                            dwt."FAULT_TYPE" as fault_type,
+                            dwt."ANUAL_FAILURE_RATE" as anual_failure_rate,
+                            dwt."FAULT_DOWNTIME_DAYS" as fault_downtime_days
+                        FROM 
+                            subsystem sub
+                            LEFT JOIN downtime as dwt on sub."SUBSYSTEM_ID" = dwt."SUBSYSTEM_ID"
+                        ''')
+
+    response = db.execute(query_str).all()
+    return response
+
 def get_user(db: Session, user_id: int):
     return db.query(models.User).filter(models.User.id == user_id).first()
 
