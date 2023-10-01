@@ -122,5 +122,7 @@ class TurbineFaults(BaseModel):
 
 
 class AntColonyPath(BaseModel):
-    turbine_id: int
-    path: list[GeoPath] = []
+    turbine_order: list[str]
+    best_path: list[int]
+    best_path_length: float
+    best_downtime_days: float
