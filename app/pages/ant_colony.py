@@ -50,22 +50,33 @@ def run_ant_colony_path(turbine_faults: list[schemas.TurbineFaults], db: Session
     
     turbine_faults_df['longitude'] = turbine_faults_df['longitude'].astype(float)
     turbine_faults_df['latitude'] = turbine_faults_df['latitude'].astype(float)
-    turbine_faults_df[['latitude_norm', 'longitude_norm']] = turbine_faults_df[['latitude', 'longitude']].apply(lambda x: (x - x.min()) / (x.max() - x.min()))
-
-    turbine_faults_dict = turbine_faults_df.reset_index(drop=True).to_dict('index')
 
     #### Testing purposes only
     # turbine_faults_df = pd.read_csv(r'tests\\inputs\\problem_5_turbines.csv', index_col=0)
-    # turbine_faults_dict = turbine_faults_df.reset_index(drop=True).to_dict('index')
     #### 
+
+    turbine_faults_df[['latitude_norm', 'longitude_norm']] = turbine_faults_df[['latitude', 'longitude']].apply(lambda x: (x - x.min()) / (x.max() - x.min()))
+    turbine_faults_dict = turbine_faults_df.reset_index(drop=True).to_dict('index')
+
+    n_turbines = turbine_faults_df.shape[0] - 1
+    if n_turbines <= 10:
+        n_ants = 3
+        alpha = 5
+        beta = 1.5
+        rho = 0.5
+    else:
+        n_ants = 8
+        alpha = 5
+        beta = 2
+        rho = 0.5
 
     start_run_time = tm.time()
     ant_colony = AntColony(turbine_faults_dict, 
-                           n_ants=10, 
-                           n_iterations=100,
-                           alpha=5, 
-                           beta=1, 
-                           evaporation_rate=0.5, 
+                           n_ants=n_ants, 
+                           n_iterations=200,
+                           alpha=alpha, 
+                           beta=beta, 
+                           evaporation_rate=rho, 
                            Q=100)
     ant_colony.ant_colony_optimization()
     end_run_time = tm.time() - start_run_time
@@ -79,7 +90,7 @@ def run_ant_colony_path(turbine_faults: list[schemas.TurbineFaults], db: Session
         'best_path_len_downtime': ant_colony.best_path_len_downtime,
         'time_to_run_sec': end_run_time,
     }
-
+    print(ant_colony_path_obj)
     return ant_colony_path_obj
 
 

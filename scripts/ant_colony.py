@@ -62,8 +62,9 @@ class AntColony():
             for ant in range(self.n_ants):
                 # visited = [False] * self.n_points
                 visited = {index: False for index in self.turbine_fault_list.keys()}
-                # Start on the Docks #np.random.randint(self.n_points)
-                current_point = 0
+                # Start on the Docks 
+                current_point = np.random.randint(self.n_points)
+                # current_point = 0
                 visited[current_point] = True
                 path = [current_point]
                 # path_length = 0
@@ -84,14 +85,11 @@ class AntColony():
 
                     next_point = np.random.choice(list(unvisited.keys()), p=probabilities)
                     path.append(next_point)
-                    # path_length += self.distance(self.points[current_point], self.points[next_point])
-                    # path_length += self.distance(np.array([self.turbine_fault_list[current_point].get('latitude'), self.turbine_fault_list[current_point].get('longitude')]), 
-                    #                              np.array([self.turbine_fault_list[next_point].get('latitude'), self.turbine_fault_list[next_point].get('longitude')]))
                     visited[next_point] = True
                     current_point = next_point
 
-                # Return to Docks
-                path.append(0)
+                # Return to start
+                path.append(path[0])
 
                 # paths.append(path)
                 # path_lengths.append(path_length)
@@ -101,7 +99,7 @@ class AntColony():
 
                 if (total_distance + total_downtime_cost) < self.best_path_len_downtime:
                     self.best_path = path
-                    self.turbine_order = [self.turbine_fault_list[idx].get('turbine_name') for i, idx in enumerate(path) if not (i == len(path) - 1)]
+                    self.turbine_order = [self.turbine_fault_list[idx].get('turbine_name') for i, idx in enumerate(path)]
                     self.best_path_length = total_distance
                     self.best_downtime_days = total_downtime_cost
                     self.best_path_len_downtime = total_distance + total_downtime_cost
