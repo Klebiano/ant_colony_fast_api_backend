@@ -140,7 +140,7 @@ if __name__ == "__main__":
 
     # Example usage:
     points = np.random.randn(20, 2)  # Generate 10 random 2D points
-    ant_colony = AntColony(points, 
+    ant_colony = AntColony(turbine_fault_list=points, 
                            n_ants=20, 
                            n_iterations=100,
                            alpha=1, 

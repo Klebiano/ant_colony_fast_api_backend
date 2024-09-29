@@ -16,6 +16,13 @@
             "jinja": true,
             "justMyCode": true,
             "redirectOutput": true
+        },
+        {
+            "name": "Python: File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
         }
     ]
 }

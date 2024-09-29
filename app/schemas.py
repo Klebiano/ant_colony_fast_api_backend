@@ -126,3 +126,4 @@ class AntColonyPath(BaseModel):
     best_path: list[int]
     best_path_length: float
     best_downtime_days: float
+    turbine_order_to_show: list[str]
