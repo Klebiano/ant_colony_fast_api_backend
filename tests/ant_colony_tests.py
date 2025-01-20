@@ -51,8 +51,7 @@ class AntColonyTests:
         sym_time_matrix = pd.DataFrame(index=turbine_faults_df.index, columns=turbine_faults_df.index)
         for i, i_row in enumerate(turbine_faults_df.itertuples()):
             for j, j_row in enumerate(turbine_faults_df.itertuples()):
-                sym_distance_matrix[i + 1][j + 1] = ant_colony.distance(np.array([i_row.latitude_norm, i_row.longitude_norm]), 
-                                                                np.array([j_row.latitude_norm, j_row.longitude_norm])) if not i == j else 0
+                sym_distance_matrix[i + 1][j + 1] = ant_colony.distance(np.array([i_row.latitude_norm, i_row.longitude_norm]), np.array([j_row.latitude_norm, j_row.longitude_norm])) if not i == j else 0
 
                 sym_time_matrix[i + 1][j + 1] = ant_colony.downtime_cost(i_row.fault_downtime_days_norm, j_row.fault_downtime_days_norm) if not i == j else 0
 
@@ -185,7 +184,7 @@ if __name__ == "__main__":
     from ant_colony import AntColony
 
     ant_colony_tests = AntColonyTests()
-    # ant_colony_tests.get_glpk_tables(5)
+    ant_colony_tests.get_glpk_tables(5)
     # asyncio.run(ant_colony_tests.run_grid_search(output_filename=r'tests\output\results_grid_search_2.csv'))
-    asyncio.run(ant_colony_tests.test_best_params(100, output_filename=r'tests\output\best_params_mean.csv'))
+    # asyncio.run(ant_colony_tests.test_best_params(100, output_filename=r'tests\output\best_params_mean.csv'))
 

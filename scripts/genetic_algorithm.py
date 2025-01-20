@@ -29,25 +29,17 @@ class GeneticAlgorithm:
     def downtime_cost(self, fault_downtime_days_1: float, fault_downtime_days_2: float) -> float:
         return fault_downtime_days_1 + fault_downtime_days_2
 
-    def calculate_total_distance(self, path: List[int]) -> float:
+    def objective_function(self, path):
         total_distance = 0
-        for i in range(len(path) - 1):
-            current_turbine = self.turbine_fault_list[path[i]]
-            next_turbine = self.turbine_fault_list[path[i + 1]]
-            current_point = np.array([current_turbine['latitude_norm'], current_turbine['longitude_norm']])
-            next_point = np.array([next_turbine['latitude_norm'], next_turbine['longitude_norm']])
-            total_distance += self.distance(current_point, next_point)
-        # Retorna ao ponto inicial
-        first_turbine = self.turbine_fault_list[path[0]]
-        last_turbine = self.turbine_fault_list[path[-1]]
-        first_point = np.array([first_turbine['latitude_norm'], first_turbine['longitude_norm']])
-        last_point = np.array([last_turbine['latitude_norm'], last_turbine['longitude_norm']])
-        total_distance += self.distance(last_point, first_point)
-        return total_distance
+        total_downtime_cost = 0
 
-    def objective_function(self, path: List[int]) -> Tuple[float, float]:
-        total_distance = self.calculate_total_distance(path)
-        total_downtime_cost = sum([self.turbine_fault_list[idx]['fault_downtime_days_norm'] for idx in path])
+        for i in range(len(path) - 1):
+            total_distance += self.distance(np.array([self.turbine_fault_list[path[i]].get('latitude_norm'), self.turbine_fault_list[path[i]].get('longitude_norm')]), 
+                                            np.array([self.turbine_fault_list[path[i + 1]].get('latitude_norm'), self.turbine_fault_list[path[i + 1]].get('longitude_norm')]))
+            
+            total_downtime_cost += self.downtime_cost(self.turbine_fault_list[path[i]].get('fault_downtime_days_norm'), 
+                                                      self.turbine_fault_list[path[i + 1]].get('fault_downtime_days_norm'))
+
         return total_distance, total_downtime_cost
 
     def selection(self) -> List[List[int]]:

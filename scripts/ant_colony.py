@@ -24,7 +24,7 @@ class AntColony():
         self.Q = Q
 
     def distance(self, point_1: float, point_2: float) -> float:
-        return np.sqrt(np.sum((point_1 - point_2)**2))
+        return np.linalg.norm(point_1 - point_2)
 
     def downtime_cost(self, fault_downtime_days_1, fault_downtime_days_2):
         return fault_downtime_days_1 + fault_downtime_days_2
