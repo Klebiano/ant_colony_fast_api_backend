@@ -14,7 +14,6 @@ class GeneticAlgorithm:
         self.implement_local_search = implement_local_search
         self.population = self.initialize_population()
         self.turbine_order = []
-        self.best_individual = None
         self.best_path = None
         self.best_path_length = np.inf
         self.best_downtime_days = np.inf
@@ -28,6 +27,36 @@ class GeneticAlgorithm:
 
     def downtime_cost(self, fault_downtime_days_1: float, fault_downtime_days_2: float) -> float:
         return fault_downtime_days_1 + fault_downtime_days_2
+    
+    def calculate_total_distance(self, route: List[int]) -> float:
+        """
+        Calcula a distância total percorrida para uma determinada rota.
+
+        Args:
+            route (List[int]): Lista representando a sequência de turbinas visitadas.
+
+        Returns:
+            float: Distância total da rota.
+        """
+        total_distance = 0.0
+        for i in range(len(route) - 1):
+            total_distance += self.distance(
+                np.array([self.turbine_fault_list[route[i]]['latitude_norm'], 
+                        self.turbine_fault_list[route[i]]['longitude_norm']]), 
+                np.array([self.turbine_fault_list[route[i + 1]]['latitude_norm'], 
+                        self.turbine_fault_list[route[i + 1]]['longitude_norm']])
+            )
+        
+        # Adiciona a distância para retornar ao ponto inicial (rota fechada)
+        total_distance += self.distance(
+            np.array([self.turbine_fault_list[route[-1]]['latitude_norm'], 
+                    self.turbine_fault_list[route[-1]]['longitude_norm']]), 
+            np.array([self.turbine_fault_list[route[0]]['latitude_norm'], 
+                    self.turbine_fault_list[route[0]]['longitude_norm']])
+        )
+
+        return total_distance
+
 
     def objective_function(self, path):
         total_distance = 0
@@ -105,10 +134,10 @@ class GeneticAlgorithm:
 
             # Avaliação da nova população
             for individual in self.population:
+                individual = individual + [individual[0]]  # Retorna ao ponto inicial
                 total_distance, total_downtime_cost = self.objective_function(individual)
                 if (total_distance + total_downtime_cost) < self.best_path_len_downtime:
-                    self.best_individual = individual
-                    self.best_path = individual + [individual[0]]  # Retorna ao ponto inicial
+                    self.best_path = individual
                     self.best_path_length = total_distance
                     self.best_downtime_days = total_downtime_cost
                     self.best_path_len_downtime = total_distance + total_downtime_cost

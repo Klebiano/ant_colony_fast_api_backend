@@ -57,10 +57,17 @@ def run_route_optmizer(turbine_faults: list[schemas.TurbineFaults], algorithm: l
     turbine_faults_df['latitude'] = turbine_faults_df['latitude'].astype(float)
 
     #### Testing purposes only
-    # turbine_faults_df = pd.read_csv(r'tests\\inputs\\problem_40_turbines.csv', index_col=0) 
+    turbine_faults_df = pd.read_csv(r'tests\\inputs\\problem_5_turbines.csv', index_col=0) 
     #### 
 
     turbine_faults_df[['latitude_norm', 'longitude_norm']] = turbine_faults_df[['latitude', 'longitude']].apply(lambda x: (x - x.min()) / (x.max() - x.min()))
+    # latitudes = turbine_faults_df['latitude']
+    # longitudes = turbine_faults_df['longitude']
+    # downtimes = turbine_faults_df['fault_downtime_days']
+
+    # turbine_faults_df['latitude_norm'] = (latitudes - latitudes.min()) / (latitudes.max() - latitudes.min())
+    # turbine_faults_df['longitude_norm'] = (longitudes - longitudes.min()) / (longitudes.max() - longitudes.min())
+    # turbine_faults_df['fault_downtime_days_norm'] = (downtimes - downtimes.min()) / (downtimes.max() - downtimes.min())
     turbine_faults_dict = turbine_faults_df.reset_index(drop=True).to_dict('index')
 
     n_turbines = turbine_faults_df.shape[0] - 1
