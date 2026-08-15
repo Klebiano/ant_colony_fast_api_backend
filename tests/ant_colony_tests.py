@@ -5,7 +5,12 @@ import numpy as np
 import asyncio
 import sys
 import os
-sys.path.append(r"C:\Users\klebi\OneDrive\Documentos\TCC\offshore_ant_web_dev\backend\scripts")
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(BASE_DIR / "scripts"))
+sys.path.insert(0, str(BASE_DIR))
+from scripts.ant_colony import AntColony
 
 class AntColonyTests:
     def __init__(self) -> None:
@@ -16,18 +21,18 @@ class AntColonyTests:
 
     def get_tests_tubine_fault_dict(self):
         problem_data_dict = {
-            1: 'tests\\inputs\\problem_40_turbines.csv',
-            2: 'tests\\inputs\\problem_20_turbines.csv',
-            3: 'tests\\inputs\\problem_15_turbines.csv',
-            4: 'tests\\inputs\\problem_10_turbines.csv',
-            5: 'tests\\inputs\\problem_5_turbines.csv'
+            1: str(BASE_DIR / 'tests' / 'inputs' / 'problem_40_turbines.csv'),
+            2: str(BASE_DIR / 'tests' / 'inputs' / 'problem_20_turbines.csv'),
+            3: str(BASE_DIR / 'tests' / 'inputs' / 'problem_15_turbines.csv'),
+            4: str(BASE_DIR / 'tests' / 'inputs' / 'problem_10_turbines.csv'),
+            5: str(BASE_DIR / 'tests' / 'inputs' / 'problem_5_turbines.csv')
         }
         return problem_data_dict
     
     def get_problem_data(self, problem_number: int):
         problem_number_path = self.get_tests_tubine_fault_dict().get(problem_number)
         turbine_faults_df = pd.read_csv(problem_number_path, index_col=0)
-        turbine_faults_df[['latitude_norm', 'longitude_norm']] = turbine_faults_df[['latitude', 'longitude']].apply(lambda x: (x - x.min()) / (x.max() - x.min()))
+        turbine_faults_df[['latitude_norm', 'longitude_norm']] = turbine_faults_df[['latitude', 'longitude']].apply(lambda x: (x - x.min()) / (x.max() - x.min()) if (x.max() - x.min()) > 0 else 0.0)
         turbine_faults_dict = turbine_faults_df.reset_index(drop=True).to_dict('index')
         return turbine_faults_dict
         
@@ -180,11 +185,8 @@ class AntColonyTests:
 
 
 if __name__ == "__main__":
-
-    from ant_colony import AntColony
-
     ant_colony_tests = AntColonyTests()
     ant_colony_tests.get_glpk_tables(5)
-    # asyncio.run(ant_colony_tests.run_grid_search(output_filename=r'tests\output\results_grid_search_2.csv'))
-    # asyncio.run(ant_colony_tests.test_best_params(100, output_filename=r'tests\output\best_params_mean.csv'))
+    # asyncio.run(ant_colony_tests.run_grid_search(output_filename=r'tests/output/results_grid_search_2.csv'))
+    # asyncio.run(ant_colony_tests.test_best_params(100, output_filename=r'tests/output/best_params_mean.csv'))
 

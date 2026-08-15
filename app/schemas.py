@@ -116,7 +116,7 @@ class Subsystems(BaseModel):
 
 class TurbineFaults(BaseModel):
     turbine_id: int
-    turbine_name: str
+    turbine_name: str | None = None
     subsystem_name: str
     fault_type: str
 
@@ -126,4 +126,6 @@ class AntColonyPath(BaseModel):
     best_path: list[int]
     best_path_length: float
     best_downtime_days: float
+    best_path_len_downtime: float | None = None
+    time_to_run_sec: float | None = None
     turbine_order_to_show: list[str]
