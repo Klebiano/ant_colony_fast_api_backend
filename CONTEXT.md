@@ -8,7 +8,9 @@ This document serves as the primary long-term memory and technical reference for
 
 * **Purpose**: A high-performance Python FastAPI backend designed for optimizing offshore wind farm turbine maintenance routing. The service computes optimal maintenance navigation routes using bio-inspired metaheuristic algorithms (Ant Colony Optimization, Genetic Algorithms, and Memetic Algorithms), balancing travel distance against turbine fault downtime costs.
 * **Target Audience**: Researchers, wind farm operational planners, and maintenance engineers needing intelligent scheduling and route optimization.
-* **Context**: Originally developed as part of an offshore wind farm maintenance research project (TCC), integrating PostgreSQL/SQLite database storage, algorithmic solvers, and a web API supporting frontend dashboards (e.g., React / Vite / Next.js).
+* **Companion Frontend**: [Wind Turbines Route Optimization Dashboard](https://github.com/Klebiano/wind_turbines_route_optimization_dashboard) (`https://github.com/Klebiano/wind_turbines_route_optimization_dashboard`) — React / Vite interactive web dashboard providing turbine map visualization, downtime scenario simulation, and live animated route tracking.
+* **Golang & Rust Replications**: [ant_colony_golang_rust_backend](https://github.com/Klebiano/ant_colony_golang_rust_backend) (`https://github.com/Klebiano/ant_colony_golang_rust_backend`) — High-performance re-implementations in Go (`net/http`) and Rust (`axum`/`tokio`), providing algorithmic parity and extensive comparative performance benchmarking against this Python FastAPI baseline.
+* **Context**: Originally developed as part of an offshore wind farm maintenance research project (TCC), integrating PostgreSQL/SQLite database storage, algorithmic solvers, and a web API supporting the companion frontend dashboard.
 
 ---
 

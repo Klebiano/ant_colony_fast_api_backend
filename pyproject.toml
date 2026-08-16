@@ -1,10 +1,16 @@
 [project]
 name = "ant-colony-fast-api-backend"
 version = "0.1.0"
-description = "Add your description here"
+description = "FastAPI backend for offshore wind turbine route optimization using bio-inspired metaheuristics"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "fastapi[standard]>=0.141.1",
     "matplotlib>=3.10.9",
 ]
+
+[project.urls]
+"Frontend Dashboard" = "https://github.com/Klebiano/wind_turbines_route_optimization_dashboard"
+"Golang & Rust Backend" = "https://github.com/Klebiano/ant_colony_golang_rust_backend"
+"Repository" = "https://github.com/Klebiano/ant_colony_fast_api_backend"
+

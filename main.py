@@ -9,7 +9,18 @@ from app.database import engine, get_db
 
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
+app = FastAPI(
+    title="Ant Colony & Metaheuristics FastAPI Backend",
+    description=(
+        "FastAPI backend service for optimizing offshore wind farm turbine maintenance routing "
+        "using Ant Colony Optimization (ACO), Genetic Algorithms (GA), and Memetic Algorithms.\n\n"
+        "- Companion Frontend Dashboard: [wind_turbines_route_optimization_dashboard]"
+        "(https://github.com/Klebiano/wind_turbines_route_optimization_dashboard)\n"
+        "- Golang & Rust Replications: [ant_colony_golang_rust_backend]"
+        "(https://github.com/Klebiano/ant_colony_golang_rust_backend)"
+    ),
+    version="1.0.0",
+)
 
 origins = [
     "http://localhost:3000",
