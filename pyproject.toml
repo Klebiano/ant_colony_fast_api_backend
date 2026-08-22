@@ -7,6 +7,7 @@ requires-python = ">=3.10"
 dependencies = [
     "fastapi[standard]>=0.141.1",
     "matplotlib>=3.10.9",
+    "pulp>=3.3.2",
 ]
 
 [project.urls]
